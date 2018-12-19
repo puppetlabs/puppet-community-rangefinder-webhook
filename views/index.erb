@@ -1,0 +1,79 @@
+<html
+  <head>
+  <title>Rangefinder Webhook</title>
+    <style>
+      body {
+        background-color: #f7fafd;
+      }
+      div.content {
+        width: 80%;
+        min-width: 850px;
+        padding: 2em;
+        margin: 2em auto;
+        border: 2px ridge #a29999;
+        border-radius: 1em;
+        box-shadow: 5px 10px 8px #888888;
+        background-color: #efefef;
+      }
+      div.fullwidth {
+        min-width: 850px;
+        min-height: 550px;
+        position: relative;
+      }
+      div.fullwidth img {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      div.fullwidth img:first-child {
+        left: 0;
+      }
+
+
+      h1, h2 {
+        text-align: center;
+        text-shadow: #8b8b8b 1px 0 10px;
+      }
+      p, ul {
+        width: 80%;
+        margin: 1em auto;
+        text-shadow: #7f7d7e 1px 0 5;
+      }
+
+    </style>
+	</head>
+	<body>
+  	<div class="content">
+    	<h1>Rangefinder Webhook</h1>
+    	<p>
+      	Rangefinder is a tool that helps predict the downstream impact of breaking
+      	file changes. This GitHub integration allows us to tie it to pull requests
+      	and provide impact prediction reports as comments when a PR is filed.
+      </p>
+      <p>
+        It's still fairly young in its development, so please don't hesitate to
+        file issues on either of:
+        <ul>
+          <li>the <a href="https://github.com/puppetlabs/puppet-community-rangefinder-webhook">GitHub integration</a></li>
+          <li>or the <a href="https://github.com/puppetlabs/puppet-community-rangefinder">Rangefinder tool</a> itself</li>
+        </ul>
+      </p>
+      <h2>Install the integration</h2>
+      <ol>
+        <li>Visit its <a href="https://github.com/apps/puppet-community-rangefinder">GitHub app page</a>.</li>
+        <li>Click <strong>Install App</strong> in the sidebar.</li>
+        <li>Select your name or an organization you belong to.</li>
+        <li>Then select the repositories you'd like to enable the app on.</li>
+      </ol>
+      <div class="fullwidth">
+        <img src="install_app.png" />
+        <img src="select_repos.png" />
+      </div>
+      <hr />
+      <ul>
+      	<li><em>Webhook Server: v<%= Rangefinder::Webhook::VERSION %></em></li>
+      	<li><em>Rangefinder: v<%= Rangefinder::VERSION %></em></li>
+      </ul>
+  	</div>
+  </body>
+</html>

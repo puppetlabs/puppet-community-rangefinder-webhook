@@ -1,0 +1,30 @@
+<% @impact.each do |result| %>
+[<%= result[:name] %>](<%= result[:fileuri] %>) is a _<%= result[:kind] %>_
+----------------------------------
+
+<% if result[:exact].empty? and result[:near].empty? %>
+that may have no external impact to Forge modules.
+<% end %>
+
+<% unless result[:exact].empty? %>
+Breaking changes to this file WILL impact these modules (exact match):
+
+<% result[:exact].each do |row| %>
+* [<%= row[:module] %>](<%= row[:repo] %>)
+<% end %>
+<% end %>
+
+<% unless result[:near].empty? %>
+Breaking changes to this file MAY impact these modules (near match):
+
+<% result[:near].each do |row| %>
+* [<%= row[:module] %>](<%= row[:repo] %>)
+<% end %>
+<% end %>
+<% end %>
+
+---------------------------------
+
+These results were generated with [Rangefinder](https://github.com/puppetlabs/puppet-community-rangefinder), a tool that helps predict the downstream impact of breaking changes to elements used in Puppet modules. You can run this on the command line to get a full report.
+
+Exact matches are those that we can positively identify via namespace and the declaring modules' metadata. Non-namespaced items, such as Puppet 3.x functions, will always be reported as near matches only.
