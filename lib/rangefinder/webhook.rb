@@ -71,10 +71,16 @@ class Rangefinder::Webhook < Sinatra::Base
 
   helpers do
     def scan_for_impact(payload)
-      repo  = payload.dig('pull_request', 'head', 'repo', 'full_name')
-      idx   = payload.dig('pull_request', 'number')
-      files = @installation_client.pull_request_files(repo, idx)
-      paths = files.map {|file| file[:filename] }
+      begin
+        repo  = payload.dig('pull_request', 'base', 'repo', 'full_name')
+        idx   = payload.dig('pull_request', 'number')
+        files = @installation_client.pull_request_files(repo, idx)
+        paths = files.map {|file| file[:filename] }
+      rescue => e
+        $logger.error "Problem retrieving file list from PR: #{e.message}"
+        $logger.debug e.backtrace.join("\n")
+        return
+      end
 
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
