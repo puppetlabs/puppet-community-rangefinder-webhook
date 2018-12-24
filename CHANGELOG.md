@@ -1,3 +1,8 @@
+# v0.0.3
+
+* Make all URIs in a report into forms that are clickable in a web browser.
+
+
 # v0.0.2
 
 * Check against the base repo instead of head
