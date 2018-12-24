@@ -31,6 +31,7 @@ class Rangefinder::Webhook < Sinatra::Base
     rescue => e
       $logger.error "There's a problem with your configuration file!"
       $logger.error e.message
+      $logger.debug e.backtrace.join "\n"
       exit 1
     end
   end
@@ -96,11 +97,35 @@ class Rangefinder::Webhook < Sinatra::Base
             uri = files.shift[:blob_url] # this order is intentional, it keeps the two lists in sync
             next if item.nil?
             item[:fileuri] = uri
+
+            munge_repo_urls(item[:exact])
+            munge_repo_urls(item[:near])
           end
           @impact.compact!
 
           @installation_client.add_comment(repo, idx, erb(:impact))
         end
+      end
+    end
+
+    def munge_repo_urls(mod)
+      mod.each do |item|
+        item[:repo] = canonicalize(item[:repo], item[:module])
+      end
+    end
+
+    def canonicalize(url, mod)
+      # do it like this instead of a regex because this should cover more git servers. (github, gitlab, bitbucket, etc)
+      if url.nil? or url.class != String
+        "https://forge.puppet.com/#{mod.sub('-', '/')}"
+      elsif url.start_with? 'git://'
+        url.sub(/^git/, 'https')
+      elsif url.start_with? 'git@'
+        url.sub(/^git@([^:]+):/, 'https://\1/')
+      elsif url !~ URI::regexp
+        "https://forge.puppet.com/#{mod.sub('-', '/')}"
+      else
+        url
       end
     end
 
