@@ -1,3 +1,8 @@
+# v0.0.4
+
+* Add Puppetfile output
+
+
 # v0.0.3
 
 * Make all URIs in a report into forms that are clickable in a web browser.
