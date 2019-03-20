@@ -2,6 +2,10 @@
 [<%= result[:name] %>](<%= result[:fileuri] %>) is a _<%= result[:kind] %>_
 ----------------------------------
 
+<% unless results[:puppetfile].empty? %>
+The enclosing module is declared in <%= result[:puppetfile] %> indexed public Puppetfiles.
+<% end %>
+
 <% if result[:exact].empty? and result[:near].empty? %>
 that may have no external impact to Forge modules.
 <% end %>
