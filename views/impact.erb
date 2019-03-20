@@ -2,7 +2,7 @@
 [<%= result[:name] %>](<%= result[:fileuri] %>) is a _<%= result[:kind] %>_
 ----------------------------------
 
-<% unless results[:puppetfile].empty? %>
+<% unless result[:puppetfile].empty? %>
 The enclosing module is declared in <%= result[:puppetfile] %> indexed public Puppetfiles.
 <% end %>
 
