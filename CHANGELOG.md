@@ -1,4 +1,4 @@
-# v0.0.4
+# v0.0.4.1
 
 * Add Puppetfile output
 
