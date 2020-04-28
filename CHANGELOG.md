@@ -1,3 +1,8 @@
+# v0.0.5
+
+Cleaned up output format so that the github comment is more readable.
+
+
 # v0.0.4.1
 
 * Add Puppetfile output
