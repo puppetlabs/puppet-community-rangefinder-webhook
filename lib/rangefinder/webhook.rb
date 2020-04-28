@@ -92,6 +92,9 @@ class Rangefinder::Webhook < Sinatra::Base
           # don't comment if we don't know anything about any of the changed files
           return if @impact.compact.empty?
 
+          # This really only works on a single module root anyways
+          @puppetfiles = @impact.map { |item| item[:puppetfile] }.compact.uniq.first
+
           # Add the file url to each entry
           @impact.each do |item|
             uri = files.shift[:blob_url] # this order is intentional, it keeps the two lists in sync

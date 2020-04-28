@@ -2,29 +2,34 @@
 [<%= result[:name] %>](<%= result[:fileuri] %>) is a _<%= result[:kind] %>_
 ----------------------------------
 
-<% unless result[:puppetfile].empty? %>
-The enclosing module is declared in <%= result[:puppetfile] %> indexed public Puppetfiles.
-<% end %>
-
 <% if result[:exact].empty? and result[:near].empty? %>
 that may have no external impact to Forge modules.
 <% end %>
 
 <% unless result[:exact].empty? %>
-Breaking changes to this file WILL impact these modules (exact match):
+<details>
+  <summary>Breaking changes to this file WILL impact these <%= result[:exact].count %> modules (exact match):</summary>
 
 <% result[:exact].each do |row| %>
 * [<%= row[:module] %>](<%= row[:repo] %>)
 <% end %>
+</details>
 <% end %>
 
 <% unless result[:near].empty? %>
-Breaking changes to this file MAY impact these modules (near match):
+<details>
+  <summary>Breaking changes to this file MAY impact these <%= result[:near].count %> modules (near match):</summary>
 
 <% result[:near].each do |row| %>
 * [<%= row[:module] %>](<%= row[:repo] %>)
 <% end %>
+</details>
 <% end %>
+
+<% end %>
+
+<% unless @puppetfiles.nil? %>
+#### This module is declared in <%= @puppetfiles %> indexed public `Puppetfiles`.
 <% end %>
 
 ---------------------------------
