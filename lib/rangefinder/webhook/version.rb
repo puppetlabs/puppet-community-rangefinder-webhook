@@ -1,5 +1,5 @@
-require 'rangefinder/version'
+require 'rangefinder/version' # this is the Rangefinder version, not the Webhook!
 class Rangefinder::Webhook
-  VERSION = '0.0.5'
+  VERSION = '0.0.6'
 end
 

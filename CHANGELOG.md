@@ -1,3 +1,9 @@
+# v0.0.6
+
+Spawn the actual analysis in a worker thread so that the webhook can respond
+immediately. This should hopefully reduce the number of 503 timeouts.
+Added some actual docs on how to run this thing.
+
 # v0.0.5
 
 Cleaned up output format so that the github comment is more readable.
