@@ -53,7 +53,10 @@ class Rangefinder::Webhook < Sinatra::Base
     when 'pull_request'
       case @payload['action']
       when 'opened', 'reopened'
-        scan_for_impact(@payload)
+        # spawn a worker thread so we can return immediately
+        Thread.new do
+          scan_for_impact(@payload)
+        end
       else
         $logger.info "Unhandled PR action: #{@payload['action']}"
       end
