@@ -64,14 +64,14 @@ optparse = OptionParser.new { |opts|
         exit
     end
 
-      # Another typical switch to print the version.
-      opts.on_tail("--version", "Show version") do
-        require 'rangefinder/webhook/version'
+    # Another typical switch to print the version.
+    opts.on_tail("--version", "Show version") do
+      require 'rangefinder/webhook/version'
 
-        puts "Rangefinder: #{Rangefinder::VERSION}"
-        puts "Webhook Server: #{Rangefinder::Webhook::VERSION}"
-        exit
-      end
+      puts "Rangefinder: #{Rangefinder::VERSION}"
+      puts "Webhook Server: #{Rangefinder::Webhook::VERSION}"
+      exit
+    end
 }
 optparse.parse!
 
@@ -80,16 +80,29 @@ options       = defaults.merge(config.merge(options))
 $logger       = Logger.new(options[:logfile])
 $logger.level = loglevel
 
-options[:github][:private_key_file] = File.expand_path(options[:github][:private_key_file])
-
-if ssl_opts[:cert_chain_file] and ssl_opts[:private_key_file]
-  options[:ssl] = true
+unless options.include? :github
+  url = 'https://developer.github.com/apps/building-github-apps/creating-a-github-app/'
+  raise "Please register a new GitHub app and configure Rangefinder. See #{url}"
+end
+unless options[:github].include? :private_key_file
+  url = 'https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/'
+  raise "Please generate a new GitHub private key. See #{url}"
+end
+unless options.include? :gcloud
+  url = 'https://cloud.google.com/docs/authentication/getting-started'
+  raise "Please create a new Google Cloud service account and configure Rangefinder. See #{url}"
 end
 
 # These options should either both be nil or both be Strings
 unless ssl_opts[:cert_chain_file].class == ssl_opts[:private_key_file].class
   raise 'You must specify both the certificate and key file!'
 end
+
+if ssl_opts[:cert_chain_file] and ssl_opts[:private_key_file]
+  options[:ssl] = true
+end
+
+options[:github][:private_key_file] = File.expand_path(options[:github][:private_key_file])
 
 if ARGV.first == 'shell'
   require 'pry'
