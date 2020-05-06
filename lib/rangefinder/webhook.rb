@@ -96,7 +96,7 @@ class Rangefinder::Webhook < Sinatra::Base
           return if @impact.compact.empty?
 
           # This really only works on a single module root anyways
-          @puppetfiles = @impact.map { |item| item[:puppetfile] }.compact.uniq.first
+          @puppetfiles = @impact.map { |item| item && item[:puppetfile] }.compact.first
 
           # Add the file url to each entry
           @impact.each do |item|
