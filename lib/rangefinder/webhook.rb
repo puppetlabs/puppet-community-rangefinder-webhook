@@ -78,8 +78,17 @@ class Rangefinder::Webhook < Sinatra::Base
       begin
         repo  = payload.dig('pull_request', 'base', 'repo', 'full_name')
         idx   = payload.dig('pull_request', 'number')
+
+        # And let's validate that it's actually a Puppet module in the first place!
+        @installation_client.contents(repo, :path => 'metadata.json')
+
         files = @installation_client.pull_request_files(repo, idx)
         paths = files.map {|file| file[:filename] }
+
+      rescue Octokit::NotFound
+        $logger.info "Not a Puppet module: #{repo}"
+        return
+
       rescue => e
         $logger.error "Problem retrieving file list from PR: #{e.message}"
         $logger.debug e.backtrace.join("\n")
