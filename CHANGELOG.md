@@ -1,3 +1,16 @@
+# v0.0.7
+
+Validate and bail out early if the repository is not actually a Puppet module.
+This is identified simply by the presence of a `metadata.json` file. This will
+allow an org to enable the webhook for all repositories and it will just ignore
+non-module repos.
+
+
+# v0.0.6.1
+
+Fixed a crasher when encountering unhandled filetypes.
+
+
 # v0.0.6
 
 Spawn the actual analysis in a worker thread so that the webhook can respond
